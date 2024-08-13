@@ -1,12 +1,12 @@
 "use client";
-
-import CartItem from "@/components/Cart/CartItem";
-import CartSummary from "@/components/Cart/CartSummary";
-import DiscountForm from "@/components/Cart/DiscountForm";
+import { CartItem } from "@/components/Cart/CartItem";
+import { CartSummary } from "@/components/Cart/CartSummary";
+import { DiscountForm } from "@/components/Cart/DiscountForm";
 import { clearCart } from "@/lib/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
 const DISCOUNT_COUPONS = {
 	APP10: 10,
 	APP15: 15,
@@ -15,7 +15,7 @@ const DISCOUNT_COUPONS = {
 export default function Cart() {
 	const cartItems = useAppSelector((state) => state.cart);
 	const dispatch = useAppDispatch();
-	const route = useRouter();
+	const router = useRouter();
 	const [discountCode, setDiscountCode] = useState("");
 	const [appliedDiscount, setAppliedDiscount] = useState(0);
 	const [discountError, setDiscountError] = useState("");
@@ -42,34 +42,29 @@ export default function Cart() {
 
 	const handleCheckout = () => {
 		dispatch(clearCart());
-		route.push("/checkout");
+		router.push("/checkout");
 	};
 
-	if (subtotal === 0) {
-		return (
-			<section className="h-40 flex justify-center items-center">
-				<h3>Your Cart is Empty</h3>
-			</section>
-		);
-	}
-
 	return (
-		<div className="px-4 md:px-10 py-6">
+		<div className="container mx-auto px-4 py-8">
+			<h1 className="text-3xl font-bold mb-6">Your Cart</h1>
 			{cartItems.map((item) => (
 				<CartItem key={item.id} {...item} />
 			))}
-			<DiscountForm
-				discountCode={discountCode}
-				setDiscountCode={setDiscountCode}
-				applyDiscount={applyDiscount}
-				discountError={discountError}
-			/>
-			<CartSummary
-				subtotal={subtotal}
-				appliedDiscount={appliedDiscount}
-				total={total}
-				handleCheckout={handleCheckout}
-			/>
+			<div className="mt-8 md:flex md:justify-between">
+				<DiscountForm
+					discountCode={discountCode}
+					setDiscountCode={setDiscountCode}
+					applyDiscount={applyDiscount}
+					discountError={discountError}
+				/>
+				<CartSummary
+					subtotal={subtotal}
+					appliedDiscount={appliedDiscount}
+					total={total}
+					onCheckout={handleCheckout}
+				/>
+			</div>
 		</div>
 	);
 }

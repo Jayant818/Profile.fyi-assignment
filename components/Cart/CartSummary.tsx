@@ -2,30 +2,37 @@ interface CartSummaryProps {
 	subtotal: number;
 	appliedDiscount: number;
 	total: number;
-	handleCheckout: () => void;
+	onCheckout: () => void;
 }
 
-export default function CartSummary({
+export const CartSummary = ({
 	subtotal,
 	appliedDiscount,
 	total,
-	handleCheckout,
-}: CartSummaryProps) {
+	onCheckout,
+}: CartSummaryProps) => {
 	return (
-		<div className="mt-8 space-y-4 text-lg md:text-xl">
-			<h2 className="font-bold">Subtotal: ₹{subtotal.toFixed(2)}</h2>
+		<div className="md:w-1/3">
+			<div className="flex justify-between items-center mb-2">
+				<span>Subtotal:</span>
+				<span>${subtotal.toFixed(2)}</span>
+			</div>
 			{appliedDiscount > 0 && (
-				<h2 className="text-xl font-bold text-green-600">
-					Discount Applied: ₹{appliedDiscount.toFixed(2)}
-				</h2>
+				<div className="flex justify-between items-center mb-2 text-green-600">
+					<span>Discount:</span>
+					<span>-${appliedDiscount.toFixed(2)}</span>
+				</div>
 			)}
-			<h2 className="font-bold">Total: ₹{total.toFixed(2)}</h2>
+			<div className="flex justify-between items-center text-xl font-bold mb-4">
+				<span>Total:</span>
+				<span>${total.toFixed(2)}</span>
+			</div>
 			<button
-				onClick={handleCheckout}
-				className="bg-green-500 text-white px-4 py-2 md:px-6 md:py-3 rounded-xl hover:bg-green-600 transition"
+				onClick={onCheckout}
+				className="w-full bg-green-500 text-white py-3 rounded-md hover:bg-green-600 transition duration-300"
 			>
 				Checkout
 			</button>
 		</div>
 	);
-}
+};

@@ -5,14 +5,14 @@ interface DiscountFormProps {
 	discountError: string;
 }
 
-export default function DiscountForm({
+export const DiscountForm = ({
 	discountCode,
 	setDiscountCode,
 	applyDiscount,
 	discountError,
-}: DiscountFormProps) {
+}: DiscountFormProps) => {
 	return (
-		<div className="space-y-2">
+		<div className="space-y-2 mb-4 md:mb-0">
 			<h2 className="font-bold">Apply Discount Coupon:</h2>
 			<div className="flex items-center space-x-2">
 				<input
@@ -29,8 +29,7 @@ export default function DiscountForm({
 					Apply
 				</button>
 			</div>
-			<p className="text-blue-500">Applicable Discount Code - APP10,APP15</p>
 			{discountError && <p className="text-red-500">{discountError}</p>}
 		</div>
 	);
-}
+};
