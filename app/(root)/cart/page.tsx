@@ -4,6 +4,7 @@ import { CartSummary } from "@/components/Cart/CartSummary";
 import { DiscountForm } from "@/components/Cart/DiscountForm";
 import { clearCart } from "@/lib/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -44,6 +45,17 @@ export default function Cart() {
 		dispatch(clearCart());
 		router.push("/checkout");
 	};
+
+	if (subtotal === 0) {
+		return (
+			<section className="flex justify-center h-40 items-center gap-2">
+				<p>Cart is Empty - </p>
+				<Link href="/" className="text-green-500 font-bold">
+					SHOP NOW
+				</Link>
+			</section>
+		);
+	}
 
 	return (
 		<div className="container mx-auto px-4 py-8">

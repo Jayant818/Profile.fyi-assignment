@@ -27,7 +27,7 @@ export const CartItem = ({
 					alt={name}
 					width={80}
 					height={80}
-					className="object-cover mr-4"
+					className="object-cover mr-2 md:mr-4"
 				/>
 				<div>
 					<h2 className="text-base md:text-lg font-semibold">{name}</h2>
@@ -55,7 +55,7 @@ export const CartItem = ({
 								dispatch(updateQuantity({ id, quantity: newQuantity }));
 							}
 						}}
-						className="w-12 text-center border-t border-b"
+						className="w-6 md:w-12 text-center border-t border-b"
 					/>
 					<button
 						onClick={() =>
@@ -68,7 +68,7 @@ export const CartItem = ({
 				</div>
 				<button
 					onClick={() => dispatch(removeFromCart(id))}
-					className="text-red-500 hover:text-red-700"
+					className="text-red-500 hover:text-red-700 text-sm md:text-base"
 				>
 					Remove
 				</button>
