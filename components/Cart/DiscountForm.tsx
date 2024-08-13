@@ -29,6 +29,7 @@ export default function DiscountForm({
 					Apply
 				</button>
 			</div>
+			<p className="text-blue-500">Applicable Discount Code - APP10,APP15</p>
 			{discountError && <p className="text-red-500">{discountError}</p>}
 		</div>
 	);

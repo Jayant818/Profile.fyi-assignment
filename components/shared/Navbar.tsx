@@ -7,7 +7,8 @@ import Link from "next/link";
 export default function Navbar() {
 	const cartItems = useAppSelector((state) => state.cart);
 	const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-	const { data: session } = useSession();
+	// const { data: session } = useSession();
+	// console.log(session);
 
 	return (
 		<nav className="bg-blue-500 p-4 sticky top-0 z-10">
@@ -22,13 +23,13 @@ export default function Navbar() {
 				</Link>
 
 				<div className="flex items-center text-white">
-					{session ? (
+					{/* {session ? (
 						<span className="mr-4">Welcome, {session.user?.name}</span>
 					) : (
 						<button onClick={() => signIn()} className="mr-4 hover:underline">
 							Login
 						</button>
-					)}
+					)} */}
 
 					<div className="relative">
 						<Link href="/cart" className="flex items-center hover:underline">

@@ -12,29 +12,28 @@ export default function Item({ product }: { product: Product }) {
 	const handleAddToCart = () => {
 		setIsAdding(true);
 		dispatch(addToCart(product));
-		setTimeout(() => setIsAdding(false), 500);
+		setTimeout(() => setIsAdding(false), 500); // Reset after animation
 	};
 
 	return (
-		<div className="border p-4 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg">
-			<div className="aspect-w-1 aspect-h-1 mb-4">
-				<Image
-					src={product.imageUrl}
-					alt={product.name}
-					layout="fill"
-					objectFit="cover"
-					className="rounded-md"
-				/>
-			</div>
-			<h2 className="font-bold text-lg mb-2 line-clamp-2">{product.name}</h2>
-			<p className="text-xl font-semibold mb-4">₹{product.price.toFixed(2)}</p>
+		<div className="border p-4 relative overflow-hidden md:p-6 lg:p-8">
+			<Image
+				src={product.imageUrl}
+				alt={product.name}
+				className="w-full h-48 object-cover md:h-64 lg:h-72"
+				width={400}
+				height={400}
+			/>
+			<h2 className="mt-2 font-bold text-sm md:text-base lg:text-lg">
+				{product.name}
+			</h2>
+			<p className="text-lg font-semibold md:text-xl">₹{product.price}</p>
 			<button
 				onClick={handleAddToCart}
-				className={`w-full bg-blue-500 text-white px-4 py-2 rounded-md transition-all duration-300 ${
-					isAdding ? "bg-green-500" : "hover:bg-blue-600"
-				}`}
+				className={`bg-blue-500 text-white px-4 py-2 mt-2 transition-all duration-300 ${
+					isAdding ? "bg-green-500" : ""
+				} md:px-6 md:py-3`}
 				disabled={isAdding}
-				aria-label={`Add ${product.name} to cart`}
 			>
 				{isAdding ? "Added!" : "Add to Cart"}
 			</button>
