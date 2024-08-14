@@ -31,7 +31,7 @@ export const CartItem = ({
 				/>
 				<div>
 					<h2 className="text-base md:text-lg font-semibold">{name}</h2>
-					<p className="text-gray-600">${price.toFixed(2)}</p>
+					<p className="text-gray-600">Rs.{price.toFixed(2)}</p>
 				</div>
 			</div>
 			<div className="flex items-center">

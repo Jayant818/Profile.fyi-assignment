@@ -15,17 +15,17 @@ export const CartSummary = ({
 		<div className="md:w-1/3">
 			<div className="flex justify-between items-center mb-2">
 				<span>Subtotal:</span>
-				<span>${subtotal.toFixed(2)}</span>
+				<span>Rs.{subtotal.toFixed(2)}</span>
 			</div>
 			{appliedDiscount > 0 && (
 				<div className="flex justify-between items-center mb-2 text-green-600">
 					<span>Discount:</span>
-					<span>-${appliedDiscount.toFixed(2)}</span>
+					<span>-Rs.{appliedDiscount.toFixed(2)}</span>
 				</div>
 			)}
 			<div className="flex justify-between items-center text-xl font-bold mb-4">
 				<span>Total:</span>
-				<span>${total.toFixed(2)}</span>
+				<span>Rs.{total.toFixed(2)}</span>
 			</div>
 			<button
 				onClick={onCheckout}

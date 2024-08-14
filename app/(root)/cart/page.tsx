@@ -1,35 +1,78 @@
 "use client";
-
-import { addToCart, removeFromCart } from "@/lib/features/cart/cartSlice";
+import { CartItem } from "@/components/Cart/CartItem";
+import { CartSummary } from "@/components/Cart/CartSummary";
+import { DiscountForm } from "@/components/Cart/DiscountForm";
+import { clearCart } from "@/lib/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { Product } from "@/types";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function Item({ product }: { product: Product }) {
-	const dispatch = useAppDispatch();
-	const [isAdding, setIsAdding] = useState(false);
-	const cartItems = useAppSelector((state) => state.cart.items);
-	const isInCart = cartItems.some((item) => item.id === product.id);
+const DISCOUNT_COUPONS = {
+	APP10: 10,
+	APP15: 15,
+};
 
-	const handleAddToCart = () => {
-		if (!isInCart) {
-			setIsAdding(true);
-			dispatch(addToCart(product));
-			setTimeout(() => setIsAdding(false), 500); // Reset after animation
+export default function Cart() {
+	const cartItems = useAppSelector((state) => state.cart);
+	const dispatch = useAppDispatch();
+	const router = useRouter();
+	const [discountCode, setDiscountCode] = useState("");
+	const [appliedDiscount, setAppliedDiscount] = useState(0);
+	const [discountError, setDiscountError] = useState("");
+
+	const subtotal = cartItems.reduce(
+		(acc, item) => acc + item.price * item.quantity,
+		0
+	);
+
+	const applyDiscount = () => {
+		const discountPercentage =
+			DISCOUNT_COUPONS[discountCode as keyof typeof DISCOUNT_COUPONS];
+		if (discountPercentage) {
+			const discountAmount = (subtotal * discountPercentage) / 100;
+			setAppliedDiscount(discountAmount);
+			setDiscountError("");
 		} else {
-			dispatch(removeFromCart(product.id));
+			setAppliedDiscount(0);
+			setDiscountError("Invalid discount code");
 		}
 	};
 
+	const total = Math.max(subtotal - appliedDiscount, 0);
+
+	const handleCheckout = () => {
+		dispatch(clearCart());
+		router.push("/checkout");
+	};
+
+	if (subtotal === 0) {
+		return (
+			<section className="flex justify-center items-center h-40 text-zinc-500">
+				Cart is Empty
+			</section>
+		);
+	}
+
 	return (
-		<div>
-			<Image src={product.image} alt={product.name} width={200} height={200} />
-			<h3>{product.name}</h3>
-			<p>₹{product.price}</p>
-			<button onClick={handleAddToCart}>
-				{isInCart ? "Remove from Cart" : isAdding ? "Added!" : "Add to Cart"}
-			</button>
+		<div className="container mx-auto px-4 py-8">
+			<h1 className="text-3xl font-bold mb-6">Your Cart</h1>
+			{cartItems.map((item) => (
+				<CartItem key={item.id} {...item} />
+			))}
+			<div className="mt-8 md:flex md:justify-between">
+				<DiscountForm
+					discountCode={discountCode}
+					setDiscountCode={setDiscountCode}
+					applyDiscount={applyDiscount}
+					discountError={discountError}
+				/>
+				<CartSummary
+					subtotal={subtotal}
+					appliedDiscount={appliedDiscount}
+					total={total}
+					onCheckout={handleCheckout}
+				/>
+			</div>
 		</div>
 	);
 }
